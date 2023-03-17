@@ -53,10 +53,11 @@ public class KafkaStream extends TupleStream implements Expressible {
         properties.setProperty("bootstrap.servers", bootstrapServers);
 
         // high throughput producer (at the expense of a bit of latency and CPU usage)
-        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+        //properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
         properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
         properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024)); // 32 KB batch size
-
+        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producer = new KafkaProducer<>(properties);
 
     }
@@ -146,7 +147,7 @@ public class KafkaStream extends TupleStream implements Expressible {
         for (int i = 0; i < updateBatchSize; i++) {
             Tuple tuple = stream.read();
             if (tuple.EOF) return i == 0 ? tuple : createBatchSummaryTuple(i);
-            producer.send(new ProducerRecord<>(topicName, tuple.jsonStr()));
+            producer.send(new ProducerRecord<>(topicName, tuple.get("id").toString(),tuple.jsonStr()));
         }
         return createBatchSummaryTuple(updateBatchSize);
     }
