@@ -137,5 +137,6 @@
     </arr>
   </requestHandler>
   <expressible name="kafka" class="com.cvlibrary.io.stream.KafkaStream"/>
+  <expressible name="cvltopic" class="com.cvlibrary.io.stream.CVLTopicStream"/>
 
 </config>
