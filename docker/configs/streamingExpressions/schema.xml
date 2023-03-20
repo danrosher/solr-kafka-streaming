@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+  <schema name="ml" version="1.6">
+    <uniqueKey>id</uniqueKey>
+
+    <fields>
+        <field name="_version_" type="long"  indexed="false" docValues="true" stored="false" multiValued="false" />
+        <field name="id"      type="string"  indexed="true"  docValues="true" stored="true" required="true" />
+        <field name="expr_s"  type="string"  indexed="true"  docValues="true" stored="true" required="true" />
+    </fields>
+
+    <types>
+        <fieldType name="long" class="solr.LongPointField" docValues="true"  multiValued="false"/>
+        <fieldtype name="string" class="solr.StrField" docValues="true" sortMissingLast="true" omitNorms="true" multiValued="false"/>
+    </types>
+</schema>
